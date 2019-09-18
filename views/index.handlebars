@@ -1,0 +1,57 @@
+<div id="container">
+
+
+    <h1>Welcome To The Burger Spot</h1>
+
+
+        <div id="addburger">
+    <div class="image"></div>
+         
+
+            <form class="addburger" method="POST">
+                <label for="newburger">Place Your Order</label><br>
+                <input type="text" id="newburger" name="name">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    
+    <div id="burgerholder">
+        <h3>You Burger is Ready to be Devoured</h3>
+        {{#each burgers}}
+        {{#unless devoured}}
+        <ul>
+            <li>
+                {{this.burger_name}}
+                <form action="/{{this.id}}?_method=PUT" method="POST">
+                    <input type="hidden" name="boolean" value="true">
+                    <br><button type="button" class="predevour" id="devour{{this.id}}">Click for Pickup</button>
+                    <input type="text" name="customer" class="customer" id="customer{{this.id}}"
+                        placeholder="Enter your name">
+                </form>
+            </li>
+        </ul>
+        {{/unless}}
+        {{/each}}
+    </div>
+
+    <div id="burgergone">
+        <h3>Devoured Burgers</h3>
+        {{#each burgers}}
+        {{#if this.devoured}}
+        <ul>
+            <li>
+                {{this.burger_name}} (Devoured by {{this.customer.name}})
+                <br>
+                <form action="/{{this.id}}?_method=PUT" method="POST">
+                    <input type="hidden" name="boolean" value="false">
+                    <button type="submit">Reorder It</button>
+                </form>
+                <form action="/{{this.id}}?_method=DELETE" method="POST">
+                    <button type="submit">Remove from Menu</button>
+                </form>
+            </li>
+        </ul>
+        {{/if}}
+        {{/each}}
+    </div>
+</div>
